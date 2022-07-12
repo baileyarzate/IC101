@@ -1,0 +1,9 @@
+include "base.dbd"
+include "calc.dbd"
+include "stream.dbd"
+include "asyn.dbd"
+include "devIocStats.dbd"
+registrar(drvAsynIPPortRegisterCommands)
+registrar(drvAsynSerialPortRegisterCommands)
+#registrar(vxi11RegisterCommands)
+

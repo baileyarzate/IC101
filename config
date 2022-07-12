@@ -1,0 +1,4 @@
+NAME=IC101
+USER=softioc
+PORT=4510
+HOST=xf17bm-ioc2

@@ -1,0 +1,274 @@
+record(stringout, "$(P)$(R)Test")
+{       
+        field(DESC, "TEST - should return 1")
+        field(DTYP, "stream") 
+        field(OUT, "@IC101.proto test $(PORT)")
+        field(PINI, "YES")
+        field(SCAN, "Passive") 
+}
+########################################################
+record(stringout, "$(P)$(R)ID")
+{
+    field(DESC, "IC101 Serial Information")
+    field(DTYP, "stream")
+    field(OUT, "@IC101.proto getID($(P)$(R)Manufactuer,$(P)$(R)Model,$(P)$(R)Serial_N,$(P)$(R)Firmware) $(PORT)")
+    field(PINI, "YES")
+    field(SCAN, "Passive")
+}
+
+record(stringin,"$(P)$(R)Manufactuer")
+{
+        field(DESC, "Manufacturer")
+}
+
+record(stringin, "$(P)$(R)Model")
+{
+        field(DESC, "Model")
+}
+
+record(stringin, "$(P)$(R)Serial_N")
+{
+        field(DESC, "Serial Number")
+}
+
+record(stringin, "$(P)$(R)Firmware")
+{
+        field(DESC, "Firmware Version")
+}
+#########################################################
+record(stringout, "$(P)$(R)Error")
+{       
+        field(DESC, "Error")
+        field(DTYP, "stream") 
+        field(OUT, "@IC101.proto error $(PORT)")
+        field(PINI, "YES")
+        field(SCAN, "Passive") 
+}
+
+record(ao, "$(P)$(R)ClearStatus")
+{
+        field(DESC, "Clear all event registers & error queue")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto clearStatus $(PORT)")
+        field(PINI, "YES")
+        field(SCAN, "Passive")
+}
+
+record(bo, "$(P)$(R)SetCapacitor")
+{
+        field(DESC, "Set Capacitor- 0=(100 pF), 1=(3300 pF)")
+        field(DTYP, "stream")
+	field(ZNAM, "100pF")
+    	field(ONAM, "3300pF")
+    	field(OUT, "@IC101.proto setCapacitor $(PORT)")
+    	field(PINI, "NO")
+    	field(SCAN, "Passive")
+}
+
+record(mbbo, "$(P)$(R)SetFreqMode")
+{
+        field(DESC, "Set Freq- 1=abs val, 2=pos, 3=neg")
+        field(DTYP, "stream")
+        field(ONST, "Absolute value")
+        field(ONVL, "1")
+        field(TWST, "Postivie Numbers")
+        field(TWVL, "2")
+        field(THST, "Negative Numbers")
+        field(THVL, "3")
+        field(OUT, "@IC101.proto setFreqMode $(PORT)")
+        field(PINI, "NO")
+        field(VAL, "1")
+        field(SCAN, "Passive")
+}
+
+#are these bounds really being met?
+record(ao,"$(P)$(R)SetVoltage" )
+{
+       field(DESC, "Device Voltage between 200 and 3000 V")
+       field(DTYP, "stream")  
+       field(OUT, "@IC101.proto setVoltage $(PORT)")
+       field(LOW, "200.0")
+       field(HIGH, "3000.0")
+       field(LSV, "MAJOR")
+       field(HSV, "MAJOR")
+       field(VAL, "200.0")
+       field(PINI, "NO")
+       field(SCAN, "Passive")
+}
+
+record(bo, "$(P)$(R)SetLogMode")
+{
+        field(DESC, "Log Mode- 0=linear, 1=logarithmic")
+        field(DTYP, "stream")
+	field(ZNAM, "Linear Mode")
+    	field(ONAM, "Logarithmic Mode")
+    	field(OUT, "@IC101.proto setLogMode $(PORT)")
+    	field(PINI, "NO")
+    	field(SCAN, "Passive")
+}
+
+record(mbbo, "$(P)$(R)SetMonitor")
+{
+        field(DESC, "Set Monitor 0,1,2,3,4")
+        field(DTYP, "stream")
+        field(ZRST, "1000000 Hz")
+        field(ZRVL, "0")
+        field(ONST, "100000 Hz")
+        field(ONVL, "1")
+        field(TWST, "10000 Hz")
+        field(TWVL, "2")
+        field(THST, "1000 Hz")
+        field(THVL, "3")
+        field(FRST, "100 Hz")
+        field(FRVL, "4")
+        field(OUT, "@IC101.proto setMonitor $(PORT)")
+        field(PINI, "NO")
+        field(VAL, "0")
+        field(SCAN, "Passive")
+}
+
+record(bo, "$(P)$(R)SetPolarity")
+{
+        field(DESC, "Device polarity")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setPolarity $(PORT)")
+        field(ZNAM, "Rising edge")
+        field(ONAM, "Falling edge")
+        field(VAL, "0")
+        field(PINI, "NO")
+        field(SCAN, "Passive")
+}
+
+record(bo, "$(P)$(R)SetCalibSource")
+{
+        field(DESC, "Set internal calib source, 0=off, 1=on")
+        field(DTYP, "stream")
+	field(ZNAM, "off")
+    	field(ONAM, "on")
+    	field(OUT, "@IC101.proto setCalibSource $(PORT)")
+    	field(PINI, "NO")
+    	field(SCAN, "Passive")
+}
+
+record(stringout, "$(P)$(R)StatusByte")
+{
+        field(DESC, "Read status byte query")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto statusByte $(PORT)")
+        field(PINI, "YES")
+        field(SCAN, "Passive")
+}
+
+record(ao, "$(P)$(R)ReadDigital")
+{       
+        field(DESC, "Read Digitals")
+        field(DTYP, "stream") 
+        field(OUT, "@IC101.proto readDigital $(PORT)")
+        field(PINI, "YES")
+        field(SCAN, "Passive") 
+}
+
+#may need editing for multiple outputs
+record(stringout, "$(P)$(R)ReadCharge")
+{       
+        field(DESC, "Read Charge")
+        field(DTYP, "stream") 
+        field(OUT, "@IC101.proto readCharge $(PORT)")
+        field(PINI, "YES")
+        field(SCAN, "Passive") 
+}
+
+#may need editing for multiple outputs
+record(stringout, "$(P)$(R)ReadCurrent")
+{       
+        field(DESC, "Read Current")
+        field(DTYP, "stream") 
+        field(OUT, "@IC101.proto readCurrent $(PORT)")
+        field(PINI, "YES")
+        field(SCAN, "Passive") 
+}
+
+record(ao, "$(P)$(R)ReadHV")
+{       
+        field(DESC, "Read HV output sense")
+        field(DTYP, "stream") 
+        field(OUT, "@IC101.proto readHV $(PORT)")
+        field(PINI, "YES")
+        field(SCAN, "Passive") 
+}
+
+##################################work in progress ############
+#error here
+
+record(ai, "$(P)$(R)Abort")
+{
+        field(DESC, "Abort Measurement")
+        field(DTYP, "stream")
+        field(INP, "@IC101.proto abort $(PORT)")
+        field(PINI, "YES")
+        field(SCAN, "Passive")
+}
+
+#password protected
+#record(ao, "$(P)$(R)SetHVMax")
+#{
+#        field(DESC, "set max allowable high voltage (volts)")
+#        field(DTYP, "stream")
+#        field(OUT, "@IC101.proto setHVMax $(PORT)")
+#        field(PINI, "YES")
+#        field(SCAN, "Passive")
+#}
+#
+
+
+#password protected
+#record(calcout, "$(P)$(R)GetHVMax")
+#{
+#        field(DESC, "get the max allowable voltage (volts)")
+#        field(DTYP, "stream")
+#        field(OUT, "@IC101.proto getHVMax $(PORT)")
+#        field(PINI, "YES")
+#        field(SCAN, "Passive")
+#}
+
+
+
+
+#record(longout, "$(P)$(R)GetEvntStat")
+#{
+#        field(DESC, "Get the state of the event status enable")
+#        field(DTYP, "stream")
+#        field(OUT, "@IC101.proto getEvntStat $(PORT)")
+#        field(PINI, "YES")
+#        field(SCAN, "Passive")
+#}
+#
+#record(longout, "$(P)$(R)InputEvntStat")
+#{
+#        field(DESC, "Query the state of the event status enable")
+#        field(DTYP, "stream")
+#        field(OUT, "@IC101.proto inputEvntStat $(PORT)")
+#        field(PINI, "YES")
+#        field(SCAN, "Passive")
+#}
+
+#record(stringout, "$(P)$(R)RecallCalib")
+#{
+#        field(DESC, "Recall the stored calibration")
+#        field(DTYP, "stream")
+#        field(OUT, "@IC101.proto recallCalib $(PORT)")
+#        field(PINI, "YES")
+#        field(SCAN, "Passive")
+#}
+
+
+
+
+#record(ai, "$(P)$(R)GetHVMax")
+#{
+#        field(DESC, "Clear all event registers & error queue")
+#        field(DTYP, "stream")
+#        field(INP, "@IC101.proto getHVMax $(PORT)")
+#        field(PINI, "YES")
+#        field(SCAN, "Passive")
+#}

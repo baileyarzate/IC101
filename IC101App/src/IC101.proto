@@ -1,0 +1,141 @@
+InTerminator = CR LF;
+OutTerminator = LF;
+
+#If command has a '?', use CR LF
+#If command does not have '?', use LF ACK
+
+######working, do not edit#####
+###############################################
+test {
+	out "*TST?";
+	in "*TST?\n\x06%39c";
+}
+
+getID { 
+	wait 50;
+	ExtraInput = Ignore;
+	out "*IDN?";
+	in "*IDN?\n\x06%(\$1)[_a-zA-Z0-9],%(\$2)[_a-zA-Z0-9-],%(\$3)[0-9],%(\$4)s";
+}
+
+error{
+	out "SYST:ERR?";
+	in "SYST:ERR?\n\x06%39c";
+}
+
+clearStatus{
+	InTerminator = LF ACK;
+	in "*CLS";
+	# out "*CLS\n\x06%39c";
+}
+
+setCapacitor{
+	out "CONF:CAP %{0|1}";
+}
+
+setFreqMode{
+	out "CONF:FREQ %d";
+}
+
+setVoltage{
+	out "CONF:HIVO:SET %d";
+}
+
+setLogMode{
+	out "CONF:LOG %{0|1}";
+}
+
+setMonitor{
+	out "CONF:MON %{0|1|2|3|4}";
+}
+
+setPolarity{
+	out "CONF:POL %{0|1}";
+}
+
+setCalibSource{
+	out "CALIB:SOUR %{0|1}";
+}
+
+statusByte{
+	out "*STB?";
+	in "*STB?\n\x06%39c";
+}
+
+readDigital{
+	InTerminator = CR LF;
+	out "READ:DIG?";
+	in "READ:DIG?\n\x06%d";
+}
+############################################
+
+###########working, may need slight editing#####
+#may need editing for multiple outputs
+readCharge{
+	out "READ:CHA?";
+	in "READ:CHA?\n\x06%39c";
+}
+
+#may need editing for multiple outputs
+readCurrent{
+	out "READ:CURR?";
+	in "READ:CURR?\n\x06%39c";
+}
+
+### runs, unsure if does what it's supposed to ####
+readHV{
+	ExtraInput = Ignore;
+	out "READ:HIVO?";
+	in "READ:HIVO?\n\x06%d";
+}
+
+
+##### work in progress ###
+abort{
+	InTerminator = LF ACK;
+	in "ABOR";
+}
+
+
+#getEvntStat{
+#	InTerminator = CR LF;
+#	out "*ESE?"; 
+#	in "*ESE?\n\x06%d";
+#}
+#
+#inputEvntStat{
+#	InTerminator = CR LF;
+#	out "*ESE %i"; 
+#	in "*ESE\n\x06%i";
+#}
+
+
+#recallCalib{
+#	InTerminator = ACK LF;
+#	out "CALIB:RCL";
+#	in "CALIB:RCL\n\x06%c";
+#}
+
+
+
+
+
+
+
+
+
+# password protected
+#setHVMax {
+#	InTerminator = ACK;
+#	out "SYST:PASS 12345";
+#	out "CONF:HIVO:MAX %d"; 
+#	#in "CONF:HIVO:MAX %d";
+#}
+
+#getHVMax {
+#	InTerminator = CR LF;
+#	out "CONF:HIVO:MAX?"; 
+#	in "CONF:HIVO:MAX?\n\x06%d";
+#}
+
+
