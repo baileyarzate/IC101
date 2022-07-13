@@ -18,6 +18,12 @@ getID {
 	in "*IDN?\n\x06%(\$1)[_a-zA-Z0-9],%(\$2)[_a-zA-Z0-9-],%(\$3)[0-9],%(\$4)s";
 }
 
+getCalibGain{
+	ExtraInput = Ignore;
+	out "CALIB:GAI?";
+	in "CALIB:GAI?\n\x06%(\$1)[_a-zA-Z0-9],%(\$2)[0-9.e+-],%(\$3)[_a-zA-Z0-9-+]";
+}
+
 error{
 	out "SYST:ERR?";
 	in "SYST:ERR?\n\x06%39c";
@@ -35,10 +41,6 @@ setCapacitor{
 
 setFreqMode{
 	out "CONF:FREQ %d";
-}
-
-setVoltage{
-	out "CONF:HIVO:SET %d";
 }
 
 setLogMode{
@@ -67,9 +69,7 @@ readDigital{
 	out "READ:DIG?";
 	in "READ:DIG?\n\x06%d";
 }
-############################################
 
-###########working, may need slight editing#####
 #may need editing for multiple outputs
 readCharge{
 	out "READ:CHA?";
@@ -82,52 +82,201 @@ readCurrent{
 	in "READ:CURR?\n\x06%39c";
 }
 
-### runs, unsure if does what it's supposed to ####
-readHV{
-	ExtraInput = Ignore;
-	out "READ:HIVO?";
-	in "READ:HIVO?\n\x06%d";
+triggerCount{
+	out "TRIG:COUN?"; 
+	in "TRIG:COUN?\n\x06%d";
+}
+
+readIntAvg{
+	out "CONF:INT?"; 
+	in "CONF:INT?\n\x06%d";
+}
+setIntAvg{
+	out "CONF:INT %d";
+}
+
+readADC{
+	out "CONF:READ?"; 
+	in "CONF:READ?\n\x06%d";
+}
+setADC{
+	out "CONF:READ %d";
 }
 
 
-##### work in progress ###
+readPeriod{
+	out "CONF:PER?"; 
+	in "CONF:PER?\n\x06%e %(EGU)c";
+}
+setPeriod{
+	InTerminator = LF ACK;
+	out "CONF:PER %e";
+	in "CONF:PER %e";
+}
+
+readRange {
+	out "CONF:RANG?";
+	in "CONF:RANG?\n\x06%e %(EGU)c";
+}
+
+setRange {
+	InTerminator = LF ACK;
+	out "CONF:RANG %e"; 
+	in "CONF:RANG %e";
+}
+
+readRes{
+	out "CONF:RES?"; 
+	in "CONF:RES?\n\x06%d";
+}
+setRes{
+	out "CONF:RES %d";
+}
+
+readOpCondition{
+	out "STAT:OPER:COND?";
+	in "STAT:OPER:COND?\n\x06%d";
+}
+
+readOpEvnt{
+	out "STAT:OPER:EVEN?";
+	in "STAT:OPER:EVEN?\n\x06%d";
+}
+
+readOpEnable{
+	out "STAT:OPER:ENAB?";
+	in "STAT:OPER:ENAB?\n\x06%d";
+}
+
+setOpEnable{
+	InTerminator = LF ACK;
+	out "STAT:OPER:ENAB %d";
+}
+
+readQCondition{
+	out "STAT:QUES:COND?";
+	in "STAT:QUES:COND?\n\x06%d";
+}
+
+readQEvnt{
+	out "STAT:QUES:EVEN?";
+	in "STAT:QUES:EVEN?\n\x06%d";
+}
+
+readQEnable{
+	out "STAT:QUES:ENAB?";
+	in "STAT:QUES:ENAB?\n\x06%d";
+}
+
+setQEnable{
+	InTerminator = LF ACK;
+	out "STAT:QUES:ENAB %d";
+}
+
+readHV{
+	out "READ:HIVO?";
+	in "READ:HIVO?\n\x06%39c";
+}
+
+getConfSwitch { 
+	ExtraInput = Ignore;
+	out "CONF:SWIT?";
+	in "CONF:SWIT?\n\x06%(\$1)[0-9 uS-],%(\$2)[0-9 uS-],%(\$3)[0-9 uS-],%(\$4)[0-9 uS-]";
+}
+######Unsure about these, it even doesn't change in telnet
+setDelay{
+	InTerminator = LF ACK;
+	out "TRIG:DELAY %e";
+	#in "TRIG:DELAY %e";
+}
+readDelay{
+	out "TRIG:DELAY?"; 
+	in "TRIG:DELAY?\n\x06%e %(EGU)c";	
+}
+
+setVoltage{
+	#InTerminator = LF ACK;
+	out "CONF:HIVO:SET %d";
+	#in "CONF:HIVO:SET %d";
+}
+readVoltage{
+	out "CONF:HIVO:SET?"; 
+	in "CONF:HIVO:SET?\n\x06%d";
+}
+#####################
+
+#are these working correctly?
+
 abort{
 	InTerminator = LF ACK;
+	ExtraInput = Ignore;
+	out "ABOR";
 	in "ABOR";
 }
 
+readEvntStat{
+	ExtraInput = Ignore;
+	out "*ESE?"; 
+	in "*ESE?\n\x06%d";
+}
 
-#getEvntStat{
-#	InTerminator = CR LF;
-#	out "*ESE?"; 
-#	in "*ESE?\n\x06%d";
+setEvntStat{
+	InTerminator = LF ACK;
+	out "*ESE %d"; 
+	in "*ESE %d";
+}
+#################################
+##### work in progress ###
+
+############camonitor undefined
+recallCalib{
+	InTerminator = LF ACK;
+	out "CALIB:RCL";
+	in "CALIB:RCL";
+}
+
+save{
+	InTerminator = LF ACK;
+	out "*SAV";
+	in "*SAv";
+}
+
+init{
+	InTerminator = LF ACK;
+	out "INIT";
+	in "INIT";
+}
+
+saveCalib{
+	InTerminator = LF ACK;
+	#out "CALIB:SAV";
+	in "CALIB:SAV\n\x06";
+}
+
+setConfigureSwitch{
+	InTerminator = LF ACK;
+	out "CONF:SWIT=%(TEST-IC101:SetConfigureSwitch.INPA)d";
+}
+
+#readScale{
+#	out "CONF:SCA?"; 
+#	in "CONF:SCA?\n\x06%e";
 #}
-#
-#inputEvntStat{
-#	InTerminator = CR LF;
-#	out "*ESE %i"; 
-#	in "*ESE\n\x06%i";
+#setScale{
+#	InTerminator = LF ACK;
+#	out "CONF:SCA %e";
+#	in "CONF:SCA %e";
 #}
 
-
-#recallCalib{
-#	InTerminator = ACK LF;
-#	out "CALIB:RCL";
-#	in "CALIB:RCL\n\x06%c";
+#get values of the range (PTC)
+#setCalibGain{
+#	ExtraInput = Ignore;
+#	out "CALIB:GAI %(\$1)s %(\2)s %(\3)s"; 
 #}
-
-
-
-
-
-
-
-
 
 # password protected
 #setHVMax {
 #	InTerminator = ACK;
-#	out "SYST:PASS 12345";
 #	out "CONF:HIVO:MAX %d"; 
 #	#in "CONF:HIVO:MAX %d";
 #}
