@@ -41,8 +41,8 @@ record(stringout, "$(P)$(R)ReadCalibGain")
 {
         field(DESC, "Query gain for each channel")
         field(DTYP, "stream")
-        field(OUT, "@IC101.proto getCalibGain($(P)$(R)GetCh1,$(P)$(R)GetCh2,$(P)$(R)GetCh3) $(PORT)")
-        field(PINI, "YES")
+        field(OUT, "@IC101.proto readCalibGain($(P)$(R)GetCh1,$(P)$(R)GetCh2,$(P)$(R)GetCh3) $(PORT)")
+        field(PINI, "NO")
         field(SCAN, "1 second")
 }
 record(stringin,"$(P)$(R)GetCh1")
@@ -178,25 +178,51 @@ record(ao, "$(P)$(R)ReadDigital")
         field(SCAN, "Passive") 
 }
 
-#may need editing for multiple outputs
+############################### Read Charge
 record(stringout, "$(P)$(R)ReadCharge")
-{       
-        field(DESC, "Read Charge")
-        field(DTYP, "stream") 
-        field(OUT, "@IC101.proto readCharge $(PORT)")
+{
+        field(DESC, "Get charge and flags")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto readCharge($(P)$(R)UnknownS1,$(P)$(R)Coulombs,$(P)$(R)ChargeRangeFlag) $(PORT)")
         field(PINI, "YES")
-        field(SCAN, ".5 second") 
+        field(SCAN, "1 second")
 }
+record(stringin,"$(P)$(R)UnknownS1")
+{
+        field(DESC, "Unknown, could be seconds")
+}
+record(stringin, "$(P)$(R)Coulombs")
+{
+        field(DESC, "Get charge of device in columbs")
+}
+record(stringin, "$(P)$(R)ChargeRangeFlag")
+{
+        field(DESC, "Over range flags")
+}
+###############################
 
-#may need editing for multiple outputs
+############################### Read Current
 record(stringout, "$(P)$(R)ReadCurrent")
-{       
-        field(DESC, "Read Current")
-        field(DTYP, "stream") 
-        field(OUT, "@IC101.proto readCurrent $(PORT)")
+{
+        field(DESC, "Get current and flags")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto readCurrent($(P)$(R)UnknownS2,$(P)$(R)Amps,$(P)$(R)CurrentRangeFlag) $(PORT)")
         field(PINI, "YES")
-        field(SCAN, ".5 second") 
+        field(SCAN, "1 second")
 }
+record(stringin,"$(P)$(R)UnknownS2")
+{
+        field(DESC, "Unknown, could be seconds")
+}
+record(stringin, "$(P)$(R)Amps")
+{
+        field(DESC, "Get current of device in amps")
+}
+record(stringin, "$(P)$(R)CurrentRangeFlag")
+{
+        field(DESC, "Over range flags")
+}
+################################
 
 record(ao, "$(P)$(R)TriggerCount")
 {
@@ -385,48 +411,84 @@ record(ao,"$(P)$(R)SetQEnable")
        field(PINI, "NO")
 }
 
-record(stringout, "$(P)$(R)ReadHV")
-{       
-        field(DESC, "Read HV output sense")
-        field(DTYP, "stream") 
-        field(OUT, "@IC101.proto readHV $(PORT)")
-        field(SCAN, ".5 second") 
-}
-
+################# Read Configure Switch
 record(stringout, "$(P)$(R)ReadConfigureSwitch")
 {
     field(DESC, "Read (reset,settle,Sw1offset,Sw1width")
     field(DTYP, "stream")
-    field(OUT, "@IC101.proto getConfSwitch($(P)$(R)ReadTheReset,$(P)$(R)ReadSettle,$(P)$(R)ReadSw1Offset,$(P)$(R)ReadSw1Width) $(PORT)")
+    field(OUT, "@IC101.proto readConfSwitch($(P)$(R)ReadReset,$(P)$(R)ReadSettle,$(P)$(R)ReadSw1Offset,$(P)$(R)ReadSw1Width) $(PORT)")
     field(PINI, "YES")
     field(SCAN, "1 second")
 }
-
-record(stringin,"$(P)$(R)ReadTheReset")
+record(stringin,"$(P)$(R)ReadReset")
 {
         field(DESC, "Read the reset")
         field(SCAN, "1 second")
 }
-
 record(stringin, "$(P)$(R)ReadSettle")
 {
         field(DESC, "Read the settle")
         field(SCAN, "1 second")
 }
-
 record(stringin, "$(P)$(R)ReadSw1Offset")
 {
         field(DESC, "Sw1 offset")
         field(SCAN, "1 second")
 }
-
 record(stringin, "$(P)$(R)ReadSw1Width")
 {
         field(DESC, "Sw1 width in usec")
         field(SCAN, "1 second")
 }
+##########################
 
-#####unsure about these two
+record(ao, "$(P)$(R)SetHVMax")
+{
+        field(DESC, "set max allowable high voltage (volts)")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setHVMax $(PORT)")
+        field(PINI, "NO")
+        field(LOW, "200")
+        field(HIGH, "3000")
+        field(SCAN, "Passive")
+}
+
+record(ao, "$(P)$(R)GetHVMax")
+{
+        field(DESC, "get the max allowable voltage (volts)")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto getHVMax $(PORT)")
+        field(PINI, "YES")
+        field(SCAN, "1 second")
+}
+
+record(stringin, "$(P)$(R)ReadHV")
+{       
+        field(DESC, "Read HV output sense")
+        field(DTYP, "stream") 
+        field(INP, "@IC101.proto readHV $(PORT)")
+        field(SCAN, ".5 second") 
+}
+
+record(ao,"$(P)$(R)ReadScale")
+{
+       field(DESC, "Scale factor for monitor")
+       field(DTYP, "stream")  
+       field(OUT, "@IC101.proto readScale $(PORT)")
+       field(PINI, "YES")
+       field(SCAN, "1 second")
+}
+
+record(ao,"$(P)$(R)SetScale")
+{
+       field(DESC, "1.00 default scale factor")
+       field(DTYP, "stream")  
+       field(OUT, "@IC101.proto setScale $(PORT)")
+       field(VAL, "1.00")
+       field(PINI, "NO")
+       field(SCAN, "Passive")
+}
+
 record(ao,"$(P)$(R)SetDelay")
 {
        field(DESC, "Set delay for message trigger mode")
@@ -534,38 +596,20 @@ record(ai, "$(P)$(R)SaveCalib")
 ##################################work in progress ############
 #error 
 
-record (calcout, "$(P)$(R)SetConfigureSwitch") {
-  field (INPA, "$(P)$(R)SetTheReset")
-  field (INPB, "$(P)$(R)SetSettle")
-  field (INPC, "$(P)$(R)SetSw1Output")
-  field (INPD, "$(P)$(R)SetSw1Width")
-  field (CALC, "0")
-  field (DTYP, "stream")
-  field (OUT, "@IC101.proto setConfigureSwitch $(PORT)")
-}
-record(ai, "$(P)$(R)SetTheReset"){}
-record(ai, "$(P)$(R)SetSettle"){}
-record(ai, "$(P)$(R)SetSw1Output"){}
-record(ai, "$(P)$(R)SetSw1Width"){}
-
-#record(ao,"$(P)$(R)ReadScale")
-#{
-#       field(DESC, "Scale factor for monitor")
-#       field(DTYP, "stream")  
-#       field(OUT, "@IC101.proto readScale $(PORT)")
-#       field(PINI, "YES")
-#       field(SCAN, "5 second")
+#### write multiple values
+#record (calcout, "$(P)$(R)SetConfigureSwitch") {
+#  field (INPA, "$(P)$(R)SetReset")
+#  field (INPB, "$(P)$(R)SetSettle")
+#  field (INPC, "$(P)$(R)SetSw1Output")
+#  field (INPD, "$(P)$(R)SetSw1Width")
+#  field (CALC, "0")
+#  field (DTYP, "stream")
+#  field (OUT, "@IC101.proto setConfigureSwitch $(BUS)")
 #}
-#
-#record(ao,"$(P)$(R)SetScale")
-#{
-#       field(DESC, "1.00 default scale factor")
-#       field(DTYP, "stream")  
-#       field(OUT, "@IC101.proto setScale $(PORT)")
-#       field(VAL, "1.00")
-#       field(PINI, "NO")
-#       field(SCAN, "Passive")
-#}
+#record(ai, "$(P)$(R)SetTheReset"){}
+#record(ai, "$(P)$(R)SetSettle"){}
+#record(ai, "$(P)$(R)SetSw1Output"){}
+#record(ai, "$(P)$(R)SetSw1Width"){}
 
 ########################################################
 #record(stringout, "$(P)$(R)GainChannel1")
@@ -597,26 +641,5 @@ record(ai, "$(P)$(R)SetSw1Width"){}
 #
 ##############################################################
 
-#password protected
-#record(ao, "$(P)$(R)SetHVMax")
-#{
-#        field(DESC, "set max allowable high voltage (volts)")
-#        field(DTYP, "stream")
-#        field(OUT, "@IC101.proto setHVMax $(PORT)")
-#        field(PINI, "YES")
-#        field(SCAN, "Passive")
-#}
-#
-
-
-#password protected
-#record(calcout, "$(P)$(R)GetHVMax")
-#{
-#        field(DESC, "get the max allowable voltage (volts)")
-#        field(DTYP, "stream")
-#        field(OUT, "@IC101.proto getHVMax $(PORT)")
-#        field(PINI, "YES")
-#        field(SCAN, "Passive")
-#}
 
 
