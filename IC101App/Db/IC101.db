@@ -1,12 +1,12 @@
 #not putting in cs studio
-record(ao, "$(P)$(R)Test")
-{       
-        field(DESC, "TEST - should return 1")
-        field(DTYP, "stream") 
-        field(OUT, "@IC101.proto test $(PORT)")
-        field(PINI, "YES")
-        field(SCAN, "10 second") 
-}
+#record(ao, "$(P)$(R)Test")
+#{       
+#        field(DESC, "TEST - should return 1")
+#        field(DTYP, "stream") 
+#        field(OUT, "@IC101.proto test $(PORT)")
+#        field(PINI, "YES")
+#        field(SCAN, "10 second") 
+#}
 ########################################################
 #in cs studio
 record(stringout, "$(P)$(R)ID")
@@ -315,8 +315,6 @@ record(ao,"$(P)$(R)SetPeriod")
        field(OUT, "@IC101.proto setPeriod $(PORT)")
        field(LOW, ".000005")
        field(HIGH, "65")
-       field(LSV, "MAJOR")
-       field(HSV, "MAJOR")
        field(VAL, "1")
        field(PINI, "NO")
        field(SCAN, "Passive")
@@ -611,9 +609,9 @@ record(ao,"$(P)$(R)SetVoltage")
        field(HIGH, "3000")
        field(LSV, "MAJOR")
        field(HSV, "MAJOR")
-       field(VAL, "200")
        field(PINI, "NO")
        field(SCAN, "Passive")
+       field(VAL, "200")
 }
 
 #in cs studio

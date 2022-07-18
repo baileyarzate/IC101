@@ -49,7 +49,7 @@ setFreqMode{
 }
 
 setLogMode{
-	out "CONF:LOG %{0|1}";
+	out "CONF:LOG %d";
 }
 
 setMonitor{
@@ -113,9 +113,9 @@ readPeriod{
 	in "CONF:PER?\n\x06%39c";
 }
 setPeriod{
-	InTerminator = LF ACK;
+	#InTerminator = LF ACK;
 	out "CONF:PER %e";
-	in "CONF:PER %e\n\x06";
+	#in "CONF:PER %e\n\x06";
 }
 
 readRange {
@@ -156,7 +156,7 @@ readOpEnable{
 }
 
 setOpEnable{
-	InTerminator = LF ACK;
+	#InTerminator = LF ACK;
 	out "STAT:OPER:ENAB %d";
 }
 
@@ -176,7 +176,7 @@ readQEnable{
 }
 
 setQEnable{
-	InTerminator = LF ACK;
+	#InTerminator = LF ACK;
 	out "STAT:QUES:ENAB %d";
 }
 
@@ -187,7 +187,7 @@ readConfSwitch {
 }
 
 setHVMax {
-	InTerminator = LF ACK;
+	#InTerminator = LF ACK;
 	out "CONF:HIVO:MAX %d"; 
 	#in "CONF:HIVO:MAX %d";
 }
@@ -250,7 +250,7 @@ readScale{
 	in "CONF:SCA?\n\x06%e";
 }
 setScale{
-	InTerminator = LF ACK;
+	#InTerminator = LF ACK;
 	out "CONF:SCA %e";
 }
 
@@ -261,9 +261,9 @@ readEvntStat{
 }
 
 setEvntStat{
-	InTerminator = LF ACK;
+	#InTerminator = LF ACK;
 	out "*ESE %d"; 
-	in "*ESE %d\n\x06";
+	#in "*ESE %d\n\x06";
 }
 
 ######Unsure about these, it even doesn't change in telnet
