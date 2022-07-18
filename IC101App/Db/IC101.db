@@ -1,4 +1,5 @@
-record(stringout, "$(P)$(R)Test")
+#not putting in cs studio
+record(ao, "$(P)$(R)Test")
 {       
         field(DESC, "TEST - should return 1")
         field(DTYP, "stream") 
@@ -7,42 +8,40 @@ record(stringout, "$(P)$(R)Test")
         field(SCAN, "10 second") 
 }
 ########################################################
+#in cs studio
 record(stringout, "$(P)$(R)ID")
 {
     field(DESC, "IC101 Serial Information")
     field(DTYP, "stream")
-    field(OUT, "@IC101.proto getID($(P)$(R)Manufactuer,$(P)$(R)Model,$(P)$(R)Serial_N,$(P)$(R)Firmware) $(PORT)")
+    field(OUT, "@IC101.proto getID($(P)$(R)Manufacturer,$(P)$(R)Model,$(P)$(R)Serial_N,$(P)$(R)Firmware) $(PORT)")
     field(PINI, "YES")
     field(SCAN, "Passive")
 }
-
-record(stringin,"$(P)$(R)Manufactuer")
+record(stringin,"$(P)$(R)Manufacturer")
 {
         field(DESC, "Manufacturer")
 }
-
 record(stringin, "$(P)$(R)Model")
 {
         field(DESC, "Model")
 }
-
 record(stringin, "$(P)$(R)Serial_N")
 {
         field(DESC, "Serial Number")
 }
-
 record(stringin, "$(P)$(R)Firmware")
 {
         field(DESC, "Firmware Version")
 }
 #########################################################
 #######################################################
+#in cs studio
 record(stringout, "$(P)$(R)ReadCalibGain")
 {
         field(DESC, "Query gain for each channel")
         field(DTYP, "stream")
         field(OUT, "@IC101.proto readCalibGain($(P)$(R)GetCh1,$(P)$(R)GetCh2,$(P)$(R)GetCh3) $(PORT)")
-        field(PINI, "NO")
+        field(PINI, "YES")
         field(SCAN, "1 second")
 }
 record(stringin,"$(P)$(R)GetCh1")
@@ -61,6 +60,7 @@ record(stringin, "$(P)$(R)GetCh3")
 }
 #############################################################
 
+#in cs studio
 record(stringout, "$(P)$(R)Error")
 {       
         field(DESC, "Error")
@@ -70,15 +70,17 @@ record(stringout, "$(P)$(R)Error")
         field(SCAN, "2 second") 
 }
 
-record(ao, "$(P)$(R)ClearStatus")
-{
-        field(DESC, "Clear all event registers & error queue")
-        field(DTYP, "stream")
-        field(OUT, "@IC101.proto clearStatus $(PORT)")
-        field(PINI, "YES")
-        field(SCAN, "Passive")
-}
 
+#Don't bother with this one 
+#record(bo, "$(P)$(R)ClearStatus")
+#{
+#        field(DESC, "Clear all event registers & error queue")
+#        field(DTYP, "stream")
+#        field(OUT, "@IC101.proto clearStatus $(PORT)")
+#        field(VAL, "0")
+#}
+
+#in cs studio
 record(bo, "$(P)$(R)SetCapacitor")
 {
         field(DESC, "Set Capacitor- 0=(100 pF), 1=(3300 pF)")
@@ -88,15 +90,17 @@ record(bo, "$(P)$(R)SetCapacitor")
     	field(OUT, "@IC101.proto setCapacitor $(PORT)")
     	field(PINI, "NO")
     	field(SCAN, "Passive")
+        field(VAL, "0")
 }
 
+#in cs studio
 record(mbbo, "$(P)$(R)SetFreqMode")
 {
         field(DESC, "Set Freq- 1=abs val, 2=pos, 3=neg")
         field(DTYP, "stream")
         field(ONST, "Absolute value")
         field(ONVL, "1")
-        field(TWST, "Postivie Numbers")
+        field(TWST, "Positive Numbers")
         field(TWVL, "2")
         field(THST, "Negative Numbers")
         field(THVL, "3")
@@ -106,6 +110,7 @@ record(mbbo, "$(P)$(R)SetFreqMode")
         field(SCAN, "Passive")
 }
 
+#in cs studio
 record(bo, "$(P)$(R)SetLogMode")
 {
         field(DESC, "Log Mode- 0=linear, 1=logarithmic")
@@ -115,8 +120,10 @@ record(bo, "$(P)$(R)SetLogMode")
     	field(OUT, "@IC101.proto setLogMode $(PORT)")
     	field(PINI, "NO")
     	field(SCAN, "Passive")
+        field(VAL, "0")
 }
 
+#in cs studio
 record(mbbo, "$(P)$(R)SetMonitor")
 {
         field(DESC, "Set Monitor 0,1,2,3,4")
@@ -137,6 +144,7 @@ record(mbbo, "$(P)$(R)SetMonitor")
         field(SCAN, "Passive")
 }
 
+#in cs studio
 record(bo, "$(P)$(R)SetPolarity")
 {
         field(DESC, "Device polarity")
@@ -149,6 +157,7 @@ record(bo, "$(P)$(R)SetPolarity")
         field(SCAN, "Passive")
 }
 
+#in cs studio
 record(bo, "$(P)$(R)SetCalibSource")
 {
         field(DESC, "Set internal calib source, 0=off, 1=on")
@@ -158,9 +167,11 @@ record(bo, "$(P)$(R)SetCalibSource")
     	field(OUT, "@IC101.proto setCalibSource $(PORT)")
     	field(PINI, "NO")
     	field(SCAN, "Passive")
+        field(VAL, "0")
 }
 
-record(stringout, "$(P)$(R)StatusByte")
+#in cs studio
+record(ao, "$(P)$(R)StatusByte")
 {
         field(DESC, "Read status byte query")
         field(DTYP, "stream")
@@ -169,61 +180,64 @@ record(stringout, "$(P)$(R)StatusByte")
         field(SCAN, "Passive")
 }
 
+#in cs studio
 record(ao, "$(P)$(R)ReadDigital")
 {       
         field(DESC, "Read Digitals")
         field(DTYP, "stream") 
         field(OUT, "@IC101.proto readDigital $(PORT)")
         field(PINI, "YES")
-        field(SCAN, "Passive") 
+        field(SCAN, "1 second") 
 }
 
-############################### Read Charge
-record(stringout, "$(P)$(R)ReadCharge")
+############################## Read Charge
+record(ao, "$(P)$(R)ReadCharge")
 {
         field(DESC, "Get charge and flags")
         field(DTYP, "stream")
         field(OUT, "@IC101.proto readCharge($(P)$(R)UnknownS1,$(P)$(R)Coulombs,$(P)$(R)ChargeRangeFlag) $(PORT)")
-        field(PINI, "YES")
-        field(SCAN, "1 second")
+        field(PINI, "NO")
+        field(SCAN, ".5 second")
 }
-record(stringin,"$(P)$(R)UnknownS1")
+record(ai,"$(P)$(R)UnknownS1")
 {
         field(DESC, "Unknown, could be seconds")
 }
-record(stringin, "$(P)$(R)Coulombs")
+#in cs studio
+record(ai, "$(P)$(R)Coulombs")
 {
-        field(DESC, "Get charge of device in columbs")
+        field(DESC, "Get charge of device in coulombs")
 }
-record(stringin, "$(P)$(R)ChargeRangeFlag")
+record(ai, "$(P)$(R)ChargeRangeFlag")
 {
         field(DESC, "Over range flags")
 }
 ###############################
-
 ############################### Read Current
-record(stringout, "$(P)$(R)ReadCurrent")
+record(ao, "$(P)$(R)ReadCurrent")
 {
         field(DESC, "Get current and flags")
         field(DTYP, "stream")
         field(OUT, "@IC101.proto readCurrent($(P)$(R)UnknownS2,$(P)$(R)Amps,$(P)$(R)CurrentRangeFlag) $(PORT)")
         field(PINI, "YES")
-        field(SCAN, "1 second")
+        field(SCAN, ".5 second")
 }
-record(stringin,"$(P)$(R)UnknownS2")
+record(ai,"$(P)$(R)UnknownS2")
 {
         field(DESC, "Unknown, could be seconds")
 }
-record(stringin, "$(P)$(R)Amps")
+#in cs studio
+record(ai, "$(P)$(R)Amps")
 {
         field(DESC, "Get current of device in amps")
 }
-record(stringin, "$(P)$(R)CurrentRangeFlag")
+record(ai, "$(P)$(R)CurrentRangeFlag")
 {
         field(DESC, "Over range flags")
 }
 ################################
 
+#in cs studio
 record(ao, "$(P)$(R)TriggerCount")
 {
         field(DESC, "Query trigger count since last INIT")
@@ -233,6 +247,7 @@ record(ao, "$(P)$(R)TriggerCount")
         field(SCAN, "1 second")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)ReadIntAvg")
 {
        field(DESC, "# of integrations to avg per read")
@@ -242,6 +257,7 @@ record(ao,"$(P)$(R)ReadIntAvg")
        field(SCAN, "1 second")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)SetIntAvg")
 {
        field(DESC, "# of integrations to avg per read")
@@ -256,6 +272,7 @@ record(ao,"$(P)$(R)SetIntAvg")
        field(SCAN, "Passive")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)ReadADC")
 {
        field(DESC, "# of ADC readings to be taken")
@@ -265,6 +282,7 @@ record(ao,"$(P)$(R)ReadADC")
        field(SCAN, "1 second")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)SetADC")
 {
        field(DESC, "# of ADC readings to be taken")
@@ -279,7 +297,8 @@ record(ao,"$(P)$(R)SetADC")
        field(SCAN, "Passive")
 }
 
-record(ao,"$(P)$(R)ReadPeriod")
+#in cs studio
+record(stringout,"$(P)$(R)ReadPeriod")
 {
        field(DESC, "integration period in seconds")
        field(DTYP, "stream")  
@@ -288,7 +307,7 @@ record(ao,"$(P)$(R)ReadPeriod")
        field(SCAN, "1 second")
 }
 
-
+#in cs studio
 record(ao,"$(P)$(R)SetPeriod")
 {
        field(DESC, "integration period in seconds")
@@ -303,7 +322,8 @@ record(ao,"$(P)$(R)SetPeriod")
        field(SCAN, "Passive")
 }
 
-record(ao,"$(P)$(R)ReadRange")
+#in cs studio
+record(stringout,"$(P)$(R)ReadRange")
 {
        field(DESC, "Current range in amps")
        field(DTYP, "stream")  
@@ -312,17 +332,19 @@ record(ao,"$(P)$(R)ReadRange")
        field(SCAN, "1 second")
 }
 
-
+#in cs studio
 record(ao,"$(P)$(R)SetRange")
 {
        field(DESC, "Set current range in amps")
        field(DTYP, "stream")  
        field(OUT, "@IC101.proto setRange $(PORT)")
-       field(PINI, "NO")
+       field(PINI, "YES")
+       field(VAL, "0.000000008")
        field(SCAN, "Passive")
 }
 
-record(ao,"$(P)$(R)ReadRes")
+#in cs studio
+record(stringout,"$(P)$(R)ReadRes")
 {
        field(DESC, "Number of bits resolution")
        field(DTYP, "stream")  
@@ -331,6 +353,7 @@ record(ao,"$(P)$(R)ReadRes")
        field(SCAN, "1 second")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)SetRes")
 {
        field(DESC, "resolution in bits (16-20)")
@@ -345,6 +368,7 @@ record(ao,"$(P)$(R)SetRes")
        field(SCAN, "Passive")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)ReadOpCondition")
 {
        field(DESC, "Get operation register cond status bit")
@@ -353,14 +377,16 @@ record(ao,"$(P)$(R)ReadOpCondition")
        field(PINI, "YES")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)ReadOpEvnt")
 {
        field(DESC, "Get operatior register event bit")
        field(DTYP, "stream")  
        field(OUT, "@IC101.proto readOpEvnt $(PORT)")
-       field(PINI, "NO")
+       field(PINI, "YES")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)ReadOpEnable")
 {
        field(DESC, "Get operation stat enable bit")
@@ -370,6 +396,7 @@ record(ao,"$(P)$(R)ReadOpEnable")
        field(SCAN, "1 second")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)SetOpEnable")
 {
        field(DESC, "Set operation stat enable bit")
@@ -378,6 +405,7 @@ record(ao,"$(P)$(R)SetOpEnable")
        field(PINI, "NO")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)ReadQCondition")
 {
        field(DESC, "Get questionable cond status bit")
@@ -386,6 +414,7 @@ record(ao,"$(P)$(R)ReadQCondition")
        field(PINI, "YES")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)ReadQEvnt")
 {
        field(DESC, "Get questionable register event bit")
@@ -394,6 +423,7 @@ record(ao,"$(P)$(R)ReadQEvnt")
        field(PINI, "YES")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)ReadQEnable")
 {
        field(DESC, "Get questionable stat enable bit")
@@ -403,6 +433,7 @@ record(ao,"$(P)$(R)ReadQEnable")
        field(SCAN, "1 second")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)SetQEnable")
 {
        field(DESC, "Set questionable stat enable bit")
@@ -412,6 +443,7 @@ record(ao,"$(P)$(R)SetQEnable")
 }
 
 ################# Read Configure Switch
+#in cs studio
 record(stringout, "$(P)$(R)ReadConfigureSwitch")
 {
     field(DESC, "Read (reset,settle,Sw1offset,Sw1width")
@@ -442,6 +474,8 @@ record(stringin, "$(P)$(R)ReadSw1Width")
 }
 ##########################
 
+#something funny here
+#in cs studio
 record(ao, "$(P)$(R)SetHVMax")
 {
         field(DESC, "set max allowable high voltage (volts)")
@@ -453,6 +487,7 @@ record(ao, "$(P)$(R)SetHVMax")
         field(SCAN, "Passive")
 }
 
+#in cs studio
 record(ao, "$(P)$(R)GetHVMax")
 {
         field(DESC, "get the max allowable voltage (volts)")
@@ -462,14 +497,71 @@ record(ao, "$(P)$(R)GetHVMax")
         field(SCAN, "1 second")
 }
 
-record(stringin, "$(P)$(R)ReadHV")
+#in cs studio
+record(stringout, "$(P)$(R)ReadHV")
 {       
         field(DESC, "Read HV output sense")
         field(DTYP, "stream") 
-        field(INP, "@IC101.proto readHV $(PORT)")
+        field(OUT, "@IC101.proto readHV $(PORT)")
         field(SCAN, ".5 second") 
 }
 
+#in cs studio
+record(bo, "$(P)$(R)Save")
+{
+        field(DESC, "Save the device current conditions")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto save $(PORT)")
+        field(PINI, "NO")
+        field(SCAN, "Passive")
+        field(VAL, "0")
+}
+#in cs studio
+record(bo, "$(P)$(R)RecallCalib")
+{
+        field(DESC, "Recall the stored calibration")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto recallCalib $(PORT)")
+        field(SCAN, "Passive")
+        field(VAL, "0")
+}
+
+#in cs studio
+record(bo, "$(P)$(R)Init")
+{
+        field(DESC, "Initiate readings on valid trigger") 
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto init $(PORT)")
+        field(VAL, "0")
+}
+
+#in cs studio
+record(bo, "$(P)$(R)Reset")
+{
+        field(DESC, "Reset stored values")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto reset $(PORT)")
+        field(VAL, "0")
+}
+
+#in cs studio
+record(bo, "$(P)$(R)Abort")
+{
+        field(DESC, "Abort Measurement")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto abort $(PORT)")
+        field(VAL, "0")
+}
+
+#in cs studio
+record (waveform, "$(P)$(R)SetConfigureSwitch") {
+        field(DESC, "Config(Reset,Settle,Sw1Offset,Sw1Width)")
+        field(DTYP, "stream")
+        field(INP, "@IC101.proto setConfigureSwitch $(PORT)")
+        field(SCAN, "Passive")
+}
+
+#in cs studio
 record(ao,"$(P)$(R)ReadScale")
 {
        field(DESC, "Scale factor for monitor")
@@ -479,6 +571,7 @@ record(ao,"$(P)$(R)ReadScale")
        field(SCAN, "1 second")
 }
 
+#in cs studio
 record(ao,"$(P)$(R)SetScale")
 {
        field(DESC, "1.00 default scale factor")
@@ -489,24 +582,26 @@ record(ao,"$(P)$(R)SetScale")
        field(SCAN, "Passive")
 }
 
-record(ao,"$(P)$(R)SetDelay")
-{
-       field(DESC, "Set delay for message trigger mode")
-       field(DTYP, "stream")  
-       field(OUT, "@IC101.proto setDelay $(PORT)")
-       field(PINI, "NO")
-       field(SCAN, "Passive")
-}
+#record(ao,"$(P)$(R)SetDelay")
+#{
+#       field(DESC, "Set delay for message trigger mode")
+#       field(DTYP, "stream")  
+#       field(OUT, "@IC101.proto setDelay $(PORT)")
+#       field(PINI, "NO")
+#       field(SCAN, "Passive")
+#}
+#
+#record(stringout,"$(P)$(R)ReadDelay")
+#{
+#       field(DESC, "Trigger delay for message trig mode")
+#       field(DTYP, "stream")  
+#       field(OUT, "@IC101.proto readDelay $(PORT)")
+#       field(PINI, "YES")
+#       field(SCAN, "1 second")
+#}
 
-record(ao,"$(P)$(R)ReadDelay")
-{
-       field(DESC, "Trigger delay for message trig mode")
-       field(DTYP, "stream")  
-       field(OUT, "@IC101.proto readDelay $(PORT)")
-       field(PINI, "YES")
-       field(SCAN, "1 second")
-}
-
+#funny here
+#in cs studio
 record(ao,"$(P)$(R)SetVoltage")
 {
        field(DESC, "Device Voltage between 200 and 3000 V")
@@ -521,6 +616,7 @@ record(ao,"$(P)$(R)SetVoltage")
        field(SCAN, "Passive")
 }
 
+#in cs studio
 record(ao, "$(P)$(R)ReadVoltage")
 {       
         field(DESC, "Get external high voltage")
@@ -530,15 +626,7 @@ record(ao, "$(P)$(R)ReadVoltage")
         field(SCAN, "1 second") 
 }
 
-record(ai, "$(P)$(R)Abort")
-{
-        field(DESC, "Abort Measurement")
-        field(DTYP, "stream")
-        field(INP, "@IC101.proto abort $(PORT)")
-        field(PINI, "YES")
-        field(SCAN, "Passive")
-}
-
+#in cs studio
 record(ao, "$(P)$(R)ReadEvntStat")
 {
         field(DESC, "Get state of the event status enable")
@@ -548,6 +636,7 @@ record(ao, "$(P)$(R)ReadEvntStat")
         field(SCAN, "1 second")
 }
 
+#in cs studio
 record(ao, "$(P)$(R)SetEvntStat")
 {
         field(DESC, "Query state of event status enable")
@@ -557,89 +646,12 @@ record(ao, "$(P)$(R)SetEvntStat")
         field(SCAN, "Passive")
 }
 
-record(ai, "$(P)$(R)RecallCalib")
-{
-        field(DESC, "Recall the stored calibration")
-        field(DTYP, "stream")
-        field(INP, "@IC101.proto recallCalib $(PORT)")
-        field(PINI, "YES")
-        field(SCAN, "10 second")
-}
-
-record(ao, "$(P)$(R)Save")
-{
-        field(DESC, "reset device to default conditions")
-        field(DTYP, "stream")
-        field(OUT, "@IC101.proto save $(PORT)")
-        field(PINI, "NO")
-        field(SCAN, "Passive")
-}
-
-record(ao, "$(P)$(R)Init")
-{
-        field(DESC, "Initiate readings on valid trigger")
-        field(DTYP, "stream")
-        field(OUT, "@IC101.proto init $(PORT)")
-        field(PINI, "NO")
-        field(SCAN, "Passive")
-}
-
-record(ai, "$(P)$(R)SaveCalib")
-{
-        field(DESC, "Save present state to EEPROM")
-        field(DTYP, "stream")
-        field(INP, "@IC101.proto saveCalib $(PORT)")
-        field(PINI, "NO")
-        field(SCAN, "Passive")
-}
-
 ##################################work in progress ############
-#error 
-
 #### write multiple values
-#record (calcout, "$(P)$(R)SetConfigureSwitch") {
-#  field (INPA, "$(P)$(R)SetReset")
-#  field (INPB, "$(P)$(R)SetSettle")
-#  field (INPC, "$(P)$(R)SetSw1Output")
-#  field (INPD, "$(P)$(R)SetSw1Width")
-#  field (CALC, "0")
-#  field (DTYP, "stream")
-#  field (OUT, "@IC101.proto setConfigureSwitch $(BUS)")
-#}
-#record(ai, "$(P)$(R)SetTheReset"){}
-#record(ai, "$(P)$(R)SetSettle"){}
-#record(ai, "$(P)$(R)SetSw1Output"){}
-#record(ai, "$(P)$(R)SetSw1Width"){}
-
-########################################################
-#record(stringout, "$(P)$(R)GainChannel1")
-#{
-#        field(DESC, "Set gain for Channel 1")
+# error here and doesn't change in telnet either
+#record (waveform, "$(P)$(R)SetCalibGain") {
+#        field(DESC, "Configure(Ch1, Ch2, Ch3)")
 #        field(DTYP, "stream")
-#        field(OUT, "@IC101.proto setCalibGain($(P)$(R)GainChannel1, $(P)$(R)GainChannel2, $(P)$(R)GainChannel3) $(PORT)")
-#        field(PINI, "NO")
+#        field(INP, "@IC101.proto setCalibGain $(PORT)")
 #        field(SCAN, "Passive")
 #}
-#
-#record(stringout, "$(P)$(R)GainChannel2")
-#{
-#        field(DESC, "Set gain for Channel 2")
-#        field(DTYP, "stream")
-#        field(OUT, "@IC101.proto setCalibGain($(P)$(R)GainChannel1, $(P)$(R)GainChannel2, $(P)$(R)GainChannel3) $(PORT)")
-#        field(PINI, "NO")
-#        field(SCAN, "Passive")
-#}
-#
-#record(stringout, "$(P)$(R)GainChannel3")
-#{
-#        field(DESC, "Set gain for Channel 3")
-#        field(DTYP, "stream")
-#        field(OUT, "@IC101.proto setCalibGain($(P)$(R)GainChannel1, $(P)$(R)GainChannel2, $(P)$(R)GainChannel3) $(PORT)")
-#        field(PINI, "NO")
-#        field(SCAN, "Passive")
-#}
-#
-##############################################################
-
-
-
