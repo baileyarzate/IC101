@@ -72,13 +72,13 @@ record(stringout, "$(P)$(R)Error")
 
 
 #Don't bother with this one 
-#record(bo, "$(P)$(R)ClearStatus")
-#{
-#        field(DESC, "Clear all event registers & error queue")
-#        field(DTYP, "stream")
-#        field(OUT, "@IC101.proto clearStatus $(PORT)")
-#        field(VAL, "0")
-#}
+record(bo, "$(P)$(R)ClearStatus")
+{
+        field(DESC, "Clear all event registers & error queue")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto clearStatus $(PORT)")
+        field(VAL, "0")
+}
 
 #in cs studio
 record(bo, "$(P)$(R)SetCapacitor")
@@ -169,22 +169,29 @@ record(mbbo, "$(P)$(R)ReadMonitor")
         #field(VAL, "0")
         field(SCAN, "1 second")
 }
-record(mbbo, "$(P)$(R)SetMonitor")
+
+#record(mbbo, "$(P)$(R)SetMonitor")
+#{
+#        field(DESC, "Read Monitor 0,1,2,3,4")
+#        field(DTYP, "stream")
+#        field(ZRST, "1000000 Hz")
+#        field(ZRVL, "0")
+#        field(ONST, "100000 Hz")
+#        field(ONVL, "1")
+#        field(TWST, "10000 Hz")
+#        field(TWVL, "2")
+#        field(THST, "1000 Hz")
+#        field(THVL, "3")
+#        field(FRST, "100 Hz")
+#        field(FRVL, "4")
+#        field(OUT, "@IC101.proto setMonitor $(PORT)")
+#        field(VAL, "4")
+#}
+record(ao, "$(P)$(R)SetMonitor")
 {
         field(DESC, "Read Monitor 0,1,2,3,4")
         field(DTYP, "stream")
-        field(ZRST, "1000000 Hz")
-        field(ZRVL, "0")
-        field(ONST, "100000 Hz")
-        field(ONVL, "1")
-        field(TWST, "10000 Hz")
-        field(TWVL, "2")
-        field(THST, "1000 Hz")
-        field(THVL, "3")
-        field(FRST, "100 Hz")
-        field(FRVL, "4")
         field(OUT, "@IC101.proto setMonitor $(PORT)")
-        field(VAL, "0")
 }
 record(ao, "$(P)$(R)SetMonitorMode0")
 {

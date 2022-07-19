@@ -59,7 +59,7 @@ setFreqMode3{
 }
 
 setLogMode{
-	out "CONF:LOG %d";
+	out "CONF:LOG %{0|1}";
 }
 
 readMonitor{
