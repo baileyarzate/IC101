@@ -94,9 +94,11 @@ record(bo, "$(P)$(R)SetCapacitor")
 }
 
 #in cs studio
-record(mbbo, "$(P)$(R)SetFreqMode")
+#record(mbbo, "$(P)$(R)SetFreqMode")
+#working here
+record(mbbo, "$(P)$(R)ReadFreqMode")
 {
-        field(DESC, "Set Freq- 1=abs val, 2=pos, 3=neg")
+        field(DESC, "Read Freq- 1=abs val, 2=pos, 3=neg")
         field(DTYP, "stream")
         field(ONST, "Absolute value")
         field(ONVL, "1")
@@ -104,10 +106,34 @@ record(mbbo, "$(P)$(R)SetFreqMode")
         field(TWVL, "2")
         field(THST, "Negative Numbers")
         field(THVL, "3")
-        field(OUT, "@IC101.proto setFreqMode $(PORT)")
-        field(PINI, "NO")
+        field(OUT, "@IC101.proto readFreqMode $(PORT)")
+        field(PINI, "YES")
+        #field(VAL, "1")
+        field(SCAN, "1 second")
+}
+record(ao, "$(P)$(R)SetFreqMode1")
+{
+        field(DESC, "Set Freq- 1=abs val")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setFreqMode1 $(PORT)")
         field(VAL, "1")
-        field(SCAN, "Passive")
+        field(PINI, "NO")
+}
+record(ao, "$(P)$(R)SetFreqMode2")
+{
+        field(DESC, "Set Freq- 2=pos val")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setFreqMode2 $(PORT)")
+        field(VAL, "2")
+        field(PINI, "NO")
+}
+record(ao, "$(P)$(R)SetFreqMode3")
+{
+        field(DESC, "Set Freq- 3=neg val")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setFreqMode3 $(PORT)")
+        field(VAL, "3")
+        field(PINI, "NO")
 }
 
 #in cs studio
@@ -124,9 +150,28 @@ record(bo, "$(P)$(R)SetLogMode")
 }
 
 #in cs studio
+record(mbbo, "$(P)$(R)ReadMonitor")
+{
+        field(DESC, "Read Monitor 0,1,2,3,4")
+        field(DTYP, "stream")
+        field(ZRST, "1000000 Hz")
+        field(ZRVL, "0")
+        field(ONST, "100000 Hz")
+        field(ONVL, "1")
+        field(TWST, "10000 Hz")
+        field(TWVL, "2")
+        field(THST, "1000 Hz")
+        field(THVL, "3")
+        field(FRST, "100 Hz")
+        field(FRVL, "4")
+        field(OUT, "@IC101.proto readMonitor $(PORT)")
+        field(PINI, "YES")
+        #field(VAL, "0")
+        field(SCAN, "1 second")
+}
 record(mbbo, "$(P)$(R)SetMonitor")
 {
-        field(DESC, "Set Monitor 0,1,2,3,4")
+        field(DESC, "Read Monitor 0,1,2,3,4")
         field(DTYP, "stream")
         field(ZRST, "1000000 Hz")
         field(ZRVL, "0")
@@ -139,9 +184,47 @@ record(mbbo, "$(P)$(R)SetMonitor")
         field(FRST, "100 Hz")
         field(FRVL, "4")
         field(OUT, "@IC101.proto setMonitor $(PORT)")
-        field(PINI, "NO")
         field(VAL, "0")
-        field(SCAN, "Passive")
+}
+record(ao, "$(P)$(R)SetMonitorMode0")
+{
+        field(DESC, "Set Monitor- 0 = 1E6")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setMonitorMode0 $(PORT)")
+        field(VAL, "0")
+        field(PINI, "NO")
+}
+record(ao, "$(P)$(R)SetMonitorMode1")
+{
+        field(DESC, "Set Monitor- 1 = 1E5")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setMonitorMode1 $(PORT)")
+        field(VAL, "1")
+        field(PINI, "NO")
+}
+record(ao, "$(P)$(R)SetMonitorMode2")
+{
+        field(DESC, "Set Monitor- 2 = 1E4")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setMonitorMode2 $(PORT)")
+        field(VAL, "2")
+        field(PINI, "NO")
+}
+record(ao, "$(P)$(R)SetMonitorMode3")
+{
+        field(DESC, "Set Monitor- 3 = 1E3")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setMonitorMode3 $(PORT)")
+        field(VAL, "3")
+        field(PINI, "NO")
+}
+record(ao, "$(P)$(R)SetMonitorMode4")
+{
+        field(DESC, "Set Monitor- 4 = 1E2")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setMonitorMode4 $(PORT)")
+        field(VAL, "4")
+        field(PINI, "NO")
 }
 
 #in cs studio
@@ -263,8 +346,8 @@ record(ao,"$(P)$(R)SetIntAvg")
        field(DESC, "# of integrations to avg per read")
        field(DTYP, "stream")  
        field(OUT, "@IC101.proto setIntAvg $(PORT)")
-       field(LOW, "1")
-       field(HIGH, "15")
+       field(LOW, "0")
+       field(HIGH, "16")
        field(LSV, "MAJOR")
        field(HSV, "MAJOR")
        field(VAL, "1")
@@ -315,6 +398,8 @@ record(ao,"$(P)$(R)SetPeriod")
        field(OUT, "@IC101.proto setPeriod $(PORT)")
        field(LOW, ".000005")
        field(HIGH, "65")
+       field(LSV, "MAJOR")
+       field(HSV, "MAJOR")
        field(VAL, "1")
        field(PINI, "NO")
        field(SCAN, "Passive")
@@ -338,6 +423,10 @@ record(ao,"$(P)$(R)SetRange")
        field(OUT, "@IC101.proto setRange $(PORT)")
        field(PINI, "YES")
        field(VAL, "0.000000008")
+       field(LOW, ".000000001")
+       field(HIGH, "0.00036013")
+       field(LSV, "MAJOR")
+       field(HSV, "MAJOR")
        field(SCAN, "Passive")
 }
 
@@ -352,18 +441,58 @@ record(stringout,"$(P)$(R)ReadRes")
 }
 
 #in cs studio
-record(ao,"$(P)$(R)SetRes")
+#record(ao,"$(P)$(R)SetRes")
+#{
+#       field(DESC, "resolution in bits (16-20)")
+#       field(DTYP, "stream")  
+#       field(OUT, "@IC101.proto setRes $(PORT)")
+#       field(LOW, "16") 
+#       field(HIGH, "20") 
+#       field(LSV, "MAJOR")
+#       field(HSV, "MAJOR")
+#       field(VAL, "16")
+#       field(PINI, "NO")
+#       field(SCAN, "Passive")
+#}
+record(ao, "$(P)$(R)SetRes16")
 {
-       field(DESC, "resolution in bits (16-20)")
-       field(DTYP, "stream")  
-       field(OUT, "@IC101.proto setRes $(PORT)")
-       field(LOW, "16")
-       field(HIGH, "20")
-       field(LSV, "MAJOR")
-       field(HSV, "MAJOR")
-       field(VAL, "16")
-       field(PINI, "NO")
-       field(SCAN, "Passive")
+        field(DESC, "Set Resolution Bit 16")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setRes16 $(PORT)")
+        field(VAL, "16")
+        field(PINI, "NO")
+}
+record(ao, "$(P)$(R)SetRes17")
+{
+        field(DESC, "Set Resolution Bit 17")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setRes17 $(PORT)")
+        field(VAL, "17")
+        field(PINI, "NO")
+}
+record(ao, "$(P)$(R)SetRes18")
+{
+        field(DESC, "Set Resolution Bit 18")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setRes18 $(PORT)")
+        field(VAL, "18")
+        field(PINI, "NO")
+}
+record(ao, "$(P)$(R)SetRes19")
+{
+        field(DESC, "Set Resolution Bit 19")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setRes19 $(PORT)")
+        field(VAL, "19")
+        field(PINI, "NO")
+}
+record(ao, "$(P)$(R)SetRes20")
+{
+        field(DESC, "Set Resolution Bit 20")
+        field(DTYP, "stream")
+        field(OUT, "@IC101.proto setRes20 $(PORT)")
+        field(VAL, "20")
+        field(PINI, "NO")
 }
 
 #in cs studio
@@ -482,6 +611,9 @@ record(ao, "$(P)$(R)SetHVMax")
         field(PINI, "NO")
         field(LOW, "200")
         field(HIGH, "3000")
+        field(LSV, "MAJOR")
+        field(HSV, "MAJOR")
+        field(VAL, "3000")
         field(SCAN, "Passive")
 }
 
@@ -578,6 +710,10 @@ record(ao,"$(P)$(R)SetScale")
        field(VAL, "1.00")
        field(PINI, "NO")
        field(SCAN, "Passive")
+       field(LOW, "0")
+       field(HIGH, "101")
+       field(LSV, "MAJOR")
+       field(HSV, "MAJOR")
 }
 
 #record(ao,"$(P)$(R)SetDelay")
@@ -605,8 +741,8 @@ record(ao,"$(P)$(R)SetVoltage")
        field(DESC, "Device Voltage between 200 and 3000 V")
        field(DTYP, "stream")  
        field(OUT, "@IC101.proto setVoltage $(PORT)")
-       field(LOW, "200")
-       field(HIGH, "3000")
+       field(LOW, "199")
+       field(HIGH, "3001")
        field(LSV, "MAJOR")
        field(HSV, "MAJOR")
        field(PINI, "NO")
@@ -642,6 +778,11 @@ record(ao, "$(P)$(R)SetEvntStat")
         field(OUT, "@IC101.proto setEvntStat $(PORT)")
         field(PINI, "NO")
         field(SCAN, "Passive")
+        field(VAL, "191")
+        field(LOW, "-1")
+        field(HIGH, "192")
+        field(LSV, "MAJOR")
+        field(HSV, "MAJOR")
 }
 
 ##################################work in progress ############

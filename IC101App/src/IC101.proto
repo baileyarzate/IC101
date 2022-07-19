@@ -44,17 +44,47 @@ setCapacitor{
 	out "CONF:CAP %{0|1}";
 }
 
-setFreqMode{
-	out "CONF:FREQ %d";
+readFreqMode{
+	out "CONF:FREQ?";
+	in "CONF:FREQ?\n\x06%d";
+}
+setFreqMode1{
+	out "CONF:FREQ 1";
+}
+setFreqMode2{
+	out "CONF:FREQ 2";
+}
+setFreqMode3{
+	out "CONF:FREQ 3";
 }
 
 setLogMode{
 	out "CONF:LOG %d";
 }
 
-setMonitor{
-	out "CONF:MON %{0|1|2|3|4}";
+readMonitor{
+	out "CONF:MON?";
+	in "CONF:MON?\n\x06%d";
 }
+setMonitor{
+	out "CONF:MON %d";
+}
+setMonitorMode0{
+	out "CONF:MON 0";
+}
+setMonitorMode1{
+	out "CONF:MON 1";
+}
+setMonitorMode2{
+	out "CONF:MON 2";
+}
+setMonitorMode3{
+	out "CONF:MON 3";
+}
+setMonitorMode4{
+	out "CONF:MON 4";
+}
+
 
 setPolarity{
 	out "CONF:POL %{0|1}";
@@ -138,6 +168,21 @@ readRes{
 }
 setRes{
 	out "CONF:RES %d";
+}
+setRes16{
+	out "CONF:RES 16";
+}
+setRes17{
+	out "CONF:RES 17";
+}
+setRes18{
+	out "CONF:RES 18";
+}
+setRes19{
+	out "CONF:RES 19";
+}
+setRes20{
+	out "CONF:RES 20";
 }
 
 readOpCondition{
